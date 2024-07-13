@@ -8,22 +8,27 @@
 
         <a href="{% url 'add_lead' %}" class="mb-8 inline-bloc text-white py-4 px-4 bg-teal-600 rounded-xl">+ Lead</a>
 
-        <div class="mt-8">
-            <div class="flex justify-between">
-                <p class="py-4 px-2 bg-gray-200 font-semibold w-full">Name</p>
-                <p class="py-4 px-2 bg-gray-200 font-semibold w-full">Priority</p>
-                <p class="py-4 px-2 bg-gray-200 font-semibold w-full">Status</p>
+        
+            <div class="mt-8">
+                {% if leads %}
+                <div class="flex justify-between">
+                    <p class="py-4 px-2 bg-gray-200 font-semibold w-full">Name</p>
+                    <p class="py-4 px-2 bg-gray-200 font-semibold w-full">Priority</p>
+                    <p class="py-4 px-2 bg-gray-200 font-semibold w-full">Status</p>
+                </div>
+                {% for lead in leads %} 
+                <div class="flex justify-between">
+                    <p class="py-4 px-2 w-full {% cycle '' 'bg-gray-100' %}">
+                        <a href="{% url 'leads_detail' lead.id %}">{{ lead.name }}</a>
+                    </p>
+                    <p class="py-4 px-2 w-full {% cycle '' 'bg-gray-100' %}">{{ lead.get_priority_display }}</p>
+                    <p class="py-4 px-2 w-full {% cycle '' 'bg-gray-100' %}">{{ lead.get_status_display }}</p>
+                </div>
+            {% endfor %}
+            {% else %}
+                <p class="px-2">There are no leads to show in the database... </p>
+            {% endif %}
             </div>
-            {% for lead in leads %} 
-            <div class="flex justify-between">
-                <p class="py-4 px-2 w-full {% cycle '' 'bg-gray-100' %}">
-                    <a href="{% url 'leads_detail' lead.id %}">{{ lead.name }}</a>
-                </p>
-                <p class="py-4 px-2 w-full {% cycle '' 'bg-gray-100' %}">{{ lead.get_priority_display }}</p>
-                <p class="py-4 px-2 w-full {% cycle '' 'bg-gray-100' %}">{{ lead.get_status_display }}</p>
-            </div>
-        {% endfor %}
-        </div>
     </div>
     
 {% endblock  %}
